@@ -1,10 +1,11 @@
 import psycopg2
 import json
-import os
+from fastapi import HTTPException, status
 
 class Database():
-    connection_data = json.load(open('config_data.json', 'r')) ["PGSQL"]
-    connection = None
+
+    def __init__(self, hola):
+        self.hola = hola
 
     def connect(self):
         try:
@@ -16,10 +17,23 @@ class Database():
                 password = self.connection_data["PASSWORD"]
             )
         except psycopg2.Error as e:
-            print(e)
             self.connection = None
+            return e
     
     def disconnect(self):
         if (self.connection is not None):
             self.connection.close()
         self.connection = None
+    
+    def select(self, query, data: list):
+        response = self.connect()
+        if (response is not None):
+            return HTTPException(
+                status_code = status.HTTP_400_BAD_REQUEST, 
+                detail = response
+            )
+        cursor = self.connection.cursor()
+        print(cursor.description)
+        cursor.execute(query = query, vars = data)
+        data = cursor.fetchall()
+        

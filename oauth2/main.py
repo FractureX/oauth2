@@ -2,7 +2,6 @@ from fastapi import FastAPI, Depends
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi.responses import RedirectResponse
 from typing import Annotated
-from bd import Database
 
 app = FastAPI()
 
@@ -17,6 +16,7 @@ async def root():
 @app.post("/token")
 async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]):
     print(form_data.username, form_data.password)
+    
     return { # Se debe devolver un diccionario con estos datos
         "access_token": "Tomatito",
         "token_type": "bearer"
