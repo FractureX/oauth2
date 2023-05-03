@@ -1,0 +1,9 @@
+{
+    "PGSQL": {
+        "HOST": "127.0.0.1",
+        "PORT": "5432",
+        "DATABASE": "oauth2",
+        "USER": "mshaquille",
+        "PASSWORD": "mshaquille"
+    }
+}
